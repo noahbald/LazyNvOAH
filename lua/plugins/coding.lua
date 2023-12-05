@@ -3,18 +3,20 @@ return {
 	{
 		"huggingface/llm.nvim",
 		opts = {
-			tokens_to_clear = { "<EOT>" },
+			tokens_to_clear = { "<|endoftext|>" },
 			fim = {
 				enabled = true,
-				prefix = "<PRE> ",
-				middle = " <MID>",
-				suffix = " <SUF>",
+				prefix = "<fim_prefix>",
+				middle = "<fim_middle>",
+				suffix = "<fim_suffix>",
 			},
 			model = "http://localhost:11434/api/generate",
 			context_window = 4096,
 			tokenizer = {
-				repository = "codellama/CodeLlama-7b-hf",
+				repository = "bigcode/starcoderbase",
 			},
+			adaptor = "ollama",
+			request_body = { model = "starcoder:1b" },
 		},
 		event = "LspAttach",
 		enabled = false,
