@@ -11,8 +11,8 @@ return {
 				-- Prevent file table overflow. FYI this is double the memory that VSCode allows
 				tsserver_max_memory = "8192",
 			},
-			enabled = false,
 		},
+		enabled = false,
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 		},
@@ -24,5 +24,16 @@ return {
 	{
 		"axelvc/template-string.nvim",
 		event = "LspAttach",
+	},
+
+	{
+		"neovim/nvim-lspconfig",
+		-- other settings removed for brevity
+		opts = {
+			---@type lspconfig.options
+			servers = {
+				biome = {},
+			},
+		},
 	},
 }

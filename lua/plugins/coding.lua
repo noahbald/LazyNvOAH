@@ -3,18 +3,20 @@ return {
 	{
 		"huggingface/llm.nvim",
 		opts = {
-			tokens_to_clear = { "<EOT>" },
+			tokens_to_clear = { "<|endoftext|>" },
 			fim = {
 				enabled = true,
-				prefix = "<PRE> ",
-				middle = " <MID>",
-				suffix = " <SUF>",
+				prefix = "<fim_prefix>",
+				middle = "<fim_middle>",
+				suffix = "<fim_suffix>",
 			},
-			model = "http://localhost:11434/api/generate",
-			context_window = 4096,
+			model = "starcoder2:3b",
+			content_window = 8192,
 			tokenizer = {
-				repository = "codellama/CodeLlama-7b-hf",
+				repository = "bigcode/starcoder2-3b",
 			},
+			url = "http://localhost:11434/api/generate",
+			accept_keymap = "<Right>",
 		},
 		event = "LspAttach",
 		enabled = false,
@@ -23,11 +25,10 @@ return {
 	-- Run ollama models from neovim
 	{
 		"David-Kunz/gen.nvim",
-		setup = function()
-			require("gen").setup()
-		end,
 		cmd = "Gen",
-		enabled = false,
+		opts = {
+			model = "codellama",
+		},
 	},
 
 	-- Disable default <tab> behaviour on LuaSnip
@@ -81,5 +82,49 @@ return {
 				end, { "i", "s" }),
 			})
 		end,
+	},
+
+	-- better increase/descrease
+	{
+		"monaqa/dial.nvim",
+		keys = {
+			{
+				"<C-a>",
+				function()
+					return require("dial.map").inc_normal()
+				end,
+				expr = true,
+				desc = "Increment",
+			},
+			{
+				"<C-A>",
+				function()
+					return require("dial.map").dec_normal()
+				end,
+				expr = true,
+				desc = "Decrement",
+			},
+		},
+		config = function()
+			local augend = require("dial.augend")
+			require("dial.config").augends:register_group({
+				default = {
+					augend.integer.alias.decimal,
+					augend.integer.alias.hex,
+					augend.date.alias["%Y/%m/%d"],
+					augend.constant.alias.bool,
+					augend.semver.alias.semver,
+					augend.constant.new({ elements = { "let", "const" } }),
+				},
+			})
+		end,
+	},
+
+	{
+		"Wansmer/treesj",
+		keys = {
+			{ "J", "<cmd>TSJToggle<cr>", desc = "Join Toggle" },
+		},
+		opts = { use_default_keymaps = false, max_join_length = 150 },
 	},
 }
