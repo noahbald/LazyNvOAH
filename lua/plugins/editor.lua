@@ -35,4 +35,33 @@ return {
 			{ "<leader>E", false },
 		},
 	},
+
+	-- Prevent flash from escaping search
+	{
+		"folke/flash.nvim",
+		opts = {
+			modes = {
+				search = {
+					enabled = false,
+				},
+			},
+		},
+	},
+
+	-- Center float buffer
+	{
+		"shortcuts/no-neck-pain.nvim",
+		opts = {
+			width = 120,
+			autocmds = {
+				enableOnVimEnter = true,
+				skipEnteringNoNeckPainBuffer = true,
+			},
+			buffers = {
+				colors = {
+					background = "#181825",
+				},
+			},
+		},
+	},
 }

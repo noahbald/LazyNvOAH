@@ -11,8 +11,8 @@ return {
 				-- Prevent file table overflow. FYI this is double the memory that VSCode allows
 				tsserver_max_memory = "8192",
 			},
-			enabled = false,
 		},
+		enabled = false,
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 		},
@@ -30,6 +30,10 @@ return {
 	{
 		"neovim/nvim-lspconfig",
 		opts = {
+			---@type lspconfig.options
+			servers = {
+				biome = {},
+			},
 			capabilities = {
 				textDocument = {
 					foldingRange = {
