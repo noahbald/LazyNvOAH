@@ -15,6 +15,7 @@ return {
 			tokenizer = {
 				repository = "bigcode/starcoderbase",
 			},
+			dismiss_keymap = "<Left>",
 			adaptor = "ollama",
 			request_body = { model = "starcoder:1b" },
 		},
