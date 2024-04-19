@@ -27,6 +27,29 @@ return {
 		},
 	},
 
+	-- Telecope file history
+	{
+		"telescope.nvim",
+		dependencies = {
+			"isak102/telescope-git-file-history.nvim",
+			dependencies = { "tpope/vim-fugitive" },
+			keys = {
+				{ "<leader>gF", "<cmd>Telescope git_file_history<cr>", desc = "Telescope Current File History" },
+			},
+		},
+	},
+
+	-- Telescope grit
+	{
+		"telescope.nvim",
+		dependencies = {
+			"noahbald/grit-telescope.nvim",
+			keys = {
+				{ "<leader>fq", "<cmd>Telescope grit<cr>", desc = "Telescope Grit Query" },
+			},
+		},
+	},
+
 	-- Remove neo-tree keybinds
 	{
 		"nvim-neo-tree/neo-tree.nvim",
