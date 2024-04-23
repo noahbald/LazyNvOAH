@@ -53,6 +53,17 @@ return {
 	-- Remove neo-tree keybinds
 	{
 		"nvim-neo-tree/neo-tree.nvim",
+		opts = {
+			event_handlers = {
+				{
+					event = "file_opened",
+					handler = function()
+						require("neo-tree.command").execute({ action = "close" })
+					end,
+				},
+			},
+			open_files_do_not_replace_types = { "no-neck-pain" },
+		},
 		keys = {
 			{ "<leader>e", false },
 			{ "<leader>E", false },
