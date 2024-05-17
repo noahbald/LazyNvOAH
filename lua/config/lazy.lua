@@ -28,6 +28,11 @@ require("lazy").setup({
 	},
 	install = { colorscheme = { "tokyonight", "habamax" } },
 	checker = { enabled = true }, -- automatically check for plugin updates
+	dev = {
+		path = "~/Projects/_libs/",
+		patterns = {},
+		fallback = true,
+	},
 	performance = {
 		rtp = {
 			-- disable some rtp plugins

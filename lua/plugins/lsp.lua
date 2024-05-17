@@ -82,4 +82,7 @@ return {
 			require("nvim-treesitter.install").compilers = { "zig", "gcc", "clang" }
 		end,
 	},
+
+	-- Add nu LSP
+	{ "LhKipp/nvim-nu", build = ":TSInstall nu", dependencies = { "nvim-treesitter/nvim-treesitter" } },
 }

@@ -45,7 +45,8 @@ return {
 		dependencies = {
 			"noahbald/grit-telescope.nvim",
 			keys = {
-				{ "<leader>fq", "<cmd>Telescope grit<cr>", desc = "Telescope Grit Query" },
+				{ "<leader>fq", "<cmd>Telescope grit query<cr>", desc = "Telescope Grit Query" },
+				{ "<leader>fQ", "<cmd>Telescope grit list<cr>", desc = "Telescope Grit User Patterns" },
 			},
 		},
 	},
@@ -59,6 +60,13 @@ return {
 					event = "file_opened",
 					handler = function()
 						require("neo-tree.command").execute({ action = "close" })
+					end,
+				},
+				{
+					event = "neo_tree_buffer_enter",
+					handler = function(arg)
+						vim.opt.relativenumber = true
+						vim.opt.number = true
 					end,
 				},
 			},

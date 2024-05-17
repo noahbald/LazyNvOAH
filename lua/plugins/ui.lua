@@ -1,14 +1,4 @@
 return {
-	-- Turn off indent animations
-	{
-		"echasnovski/mini.indentscope",
-		opts = {
-			draw = {
-				animation = require("mini.indentscope").gen_animation.none(),
-			},
-		},
-	},
-
 	-- Update dashboard logo
 	{
 		"nvimdev/dashboard-nvim",
