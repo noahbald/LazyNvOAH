@@ -15,18 +15,6 @@ return {
 		event = "LspAttach",
 	},
 
-	-- Add telescope fzf native
-	{
-		"telescope.nvim",
-		dependencies = {
-			"nvim-telescope/telescope-fzf-native.nvim",
-			build = "make",
-			config = function()
-				require("telescope").load_extension("fzf")
-			end,
-		},
-	},
-
 	-- Telecope file history
 	{
 		"telescope.nvim",
@@ -52,6 +40,7 @@ return {
 	},
 
 	-- Remove neo-tree keybinds
+	-- Prevent opening in no-neck-pain buffers
 	{
 		"nvim-neo-tree/neo-tree.nvim",
 		opts = {
@@ -105,5 +94,17 @@ return {
 				},
 			},
 		},
+	},
+
+	-- Prettier markdown
+	{
+		"OXY2DEV/markview.nvim",
+		dependencies = {
+			"nvim-tree/nvim-web-devicons", -- Used by the code bloxks
+		},
+
+		config = function()
+			require("markview").setup()
+		end,
 	},
 }

@@ -6,7 +6,7 @@
 vim.api.nvim_set_keymap("n", ";", ":", { noremap = true })
 -- Add quick shortcut NeoTree
 vim.keymap.set("n", "<leader><cr>", "<leader>fE", { remap = true, desc = "Explorer NeoTree" })
--- Add quick shortcut to delete bugger
+-- Add quick shortcut to delete buffer
 vim.keymap.set("n", "<C-x>", "<leader>bd", { remap = true, desc = "Delete buffer" })
 -- Remove lazyvim from top-level of which-key
 vim.keymap.del("n", "<leader>l")

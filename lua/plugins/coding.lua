@@ -22,6 +22,7 @@ return {
 			request_body = { model = "starcoder2:3b" },
 		},
 		event = "LspAttach",
+		-- WARN: Disabled
 		enabled = false,
 	},
 
@@ -32,94 +33,84 @@ return {
 		opts = {
 			model = "codellama",
 		},
-	},
-
-	-- Disable default <tab> behaviour on LuaSnip
-	{
-		"L3MON4D3/LuaSnip",
-		keys = function()
-			return {}
-		end,
+		-- WARN: Disabled
+		enabled = false,
 	},
 
 	-- Set <tab> and <s-tab> to move between items of LuaSnip
 	{
 		"hrsh7th/nvim-cmp",
-		dependencies = {
-			"hrsh7th/cmp-emoji",
-		},
-		---@param opts cmp.ConfigSchema
-		opts = function(_, opts)
+		opts = function()
 			local has_words_before = function()
 				unpack = unpack or table.unpack
 				local line, col = unpack(vim.api.nvim_win_get_cursor(0))
 				return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 			end
 
-			local luasnip = require("luasnip")
+			vim.api.nvim_set_hl(0, "CmpGhostText", { link = "Comment", default = true })
 			local cmp = require("cmp")
+			local defaults = require("cmp.config.default")()
+			local auto_select = true
 
-			opts.mapping = vim.tbl_extend("force", opts.mapping, {
-				["<Tab>"] = cmp.mapping(function(fallback)
-					if cmp.visible() then
-						-- You could replace select_next_item() with confirm({ select = true }) to get VS Code autocompletion behavior
-						cmp.select_next_item()
-						-- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable()
-						-- this way you will only jump inside the snippet region
-					elseif luasnip.expand_or_jumpable() then
-						luasnip.expand_or_jump()
-					elseif has_words_before() then
-						cmp.complete()
-					else
-						fallback()
-					end
-				end, { "i", "s" }),
-				["<S-Tab>"] = cmp.mapping(function(fallback)
-					if cmp.visible() then
-						cmp.select_prev_item()
-					elseif luasnip.jumpable(-1) then
-						luasnip.jump(-1)
-					else
-						fallback()
-					end
-				end, { "i", "s" }),
-			})
-		end,
-	},
-
-	-- better increase/descrease
-	{
-		"monaqa/dial.nvim",
-		keys = {
-			{
-				"<C-a>",
-				function()
-					return require("dial.map").inc_normal()
-				end,
-				expr = true,
-				desc = "Increment",
-			},
-			{
-				"<C-A>",
-				function()
-					return require("dial.map").dec_normal()
-				end,
-				expr = true,
-				desc = "Decrement",
-			},
-		},
-		config = function()
-			local augend = require("dial.augend")
-			require("dial.config").augends:register_group({
-				default = {
-					augend.integer.alias.decimal,
-					augend.integer.alias.hex,
-					augend.date.alias["%Y/%m/%d"],
-					augend.constant.alias.bool,
-					augend.semver.alias.semver,
-					augend.constant.new({ elements = { "let", "const" } }),
+			return {
+				auto_brackets = {}, -- configure any filetype to auto add brackets
+				completion = {
+					completeopt = "menu,menuone,noinsert" .. (auto_select and "" or ",noselect"),
 				},
-			})
+				preselect = auto_select and cmp.PreselectMode.Item or cmp.PreselectMode.None,
+				mapping = cmp.mapping.preset.insert({
+					["<C-b>"] = cmp.mapping.scroll_docs(-4),
+					["<C-f>"] = cmp.mapping.scroll_docs(4),
+					["<C-Space>"] = cmp.mapping.complete(),
+					["<CR>"] = LazyVim.cmp.confirm({ select = auto_select }),
+					["<C-y>"] = LazyVim.cmp.confirm({ select = true }),
+					["<S-CR>"] = LazyVim.cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+					["<C-CR>"] = function(fallback)
+						cmp.abort()
+						fallback()
+					end,
+					-- NOTE: Added tab controls to lazyvim defaults
+					["<Tab>"] = function(fallback)
+						if not cmp.select_next_item() then
+							if vim.bo.buftype ~= "prompt" and has_words_before() then
+								cmp.complete()
+							else
+								fallback()
+							end
+						end
+					end,
+					["<S-Tab>"] = function(fallback)
+						if not cmp.select_prev_item() then
+							if vim.bo.buftype ~= "prompt" and has_words_before() then
+								cmp.complete()
+							else
+								fallback()
+							end
+						end
+					end,
+				}),
+				sources = cmp.config.sources({
+					{ name = "nvim_lsp" },
+					{ name = "path" },
+				}, {
+					{ name = "buffer" },
+				}),
+				formatting = {
+					format = function(_, item)
+						local icons = LazyVim.config.icons.kinds
+						if icons[item.kind] then
+							item.kind = icons[item.kind] .. item.kind
+						end
+						return item
+					end,
+				},
+				experimental = {
+					ghost_text = {
+						hl_group = "CmpGhostText",
+					},
+				},
+				sorting = defaults.sorting,
+			}
 		end,
 	},
 

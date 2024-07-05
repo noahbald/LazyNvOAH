@@ -12,18 +12,13 @@ return {
 				tsserver_max_memory = "8192",
 			},
 		},
+		-- WARN: Disabled
 		enabled = false,
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 		},
 		build = "npm i -g @styled/typescript-styled-plugin",
 		event = "LazyFile",
-	},
-
-	-- Convert strings to template strings when `${}` syntax is used
-	{
-		"axelvc/template-string.nvim",
-		event = "LspAttach",
 	},
 
 	-- Add folding range capabilities
