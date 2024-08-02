@@ -78,6 +78,20 @@ return {
 		end,
 	},
 
-	-- Add nu LSP
-	{ "LhKipp/nvim-nu", build = ":TSInstall nu", dependencies = { "nvim-treesitter/nvim-treesitter" } },
+	-- i18n preview
+	{
+		"nabekou29/js-i18n.nvim",
+		dependencies = {
+			"neovim/nvim-lspconfig",
+			"nvim-treesitter/nvim-treesitter",
+			"nvim-lua/plenary.nvim",
+		},
+		event = { "BufReadPre", "BufNewFile" },
+		opts = {
+			translation_source = { "**/locales/*.json" },
+			detect_language = function(path)
+				return path:match("([^/]+)%.json$")
+			end,
+		},
+	},
 }

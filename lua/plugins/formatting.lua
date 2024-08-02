@@ -1,6 +1,7 @@
 local conform_condition_memo = {}
 
 return {
+	-- Ensure formatters are installed
 	{
 		"williamboman/mason.nvim",
 		opts = function(_, opts)
@@ -10,6 +11,7 @@ return {
 		end,
 	},
 
+	-- Ensure formatters are included in language server
 	{
 		"nvimtools/none-ls.nvim",
 		optional = true,
@@ -22,6 +24,8 @@ return {
 		end,
 	},
 
+	-- Force order of precedence for formatters, in order of performance
+	-- Filter by project/filetype
 	{
 		"stevearc/conform.nvim",
 		optional = true,

@@ -53,7 +53,7 @@ return {
 				},
 				{
 					event = "neo_tree_buffer_enter",
-					handler = function(arg)
+					handler = function()
 						vim.opt.relativenumber = true
 						vim.opt.number = true
 					end,
@@ -99,12 +99,41 @@ return {
 	-- Prettier markdown
 	{
 		"OXY2DEV/markview.nvim",
+		ft = "markdown",
 		dependencies = {
-			"nvim-tree/nvim-web-devicons", -- Used by the code bloxks
+			"nvim-treesitter/nvim-treesitter",
+			"nvim-tree/nvim-web-devicons", -- Used by the code blocks
 		},
+	},
 
+	{
+		"notomo/zebrazone.nvim",
+		event = "BufEnter",
+		dependencies = { "catppuccin/nvim" },
 		config = function()
-			require("markview").setup()
+			local started = {}
+			local start_buf = function(ev)
+				local buf = vim.bo[ev.buf]
+				local name = vim.api.nvim_buf_get_name(ev.buf)
+				if name == "" then
+					return
+				end
+				if not buf.buflisted then
+					return
+				end
+				if vim.tbl_contains(started, ev.buf) then
+					return
+				end
+				-- vim.notify(vim.inspect({ ev.buf, buf.buflisted, buf.buftype, name, vim.api.nvim_buf_is_loaded(ev.buf) }))
+				table.insert(started, ev.buf)
+
+				require("zebrazone").start({ bufnr = ev.buf })
+			end
+			vim.api.nvim_create_autocmd({ "BufEnter" }, {
+				group = vim.api.nvim_create_augroup("zebrazone", { clear = true }),
+				callback = start_buf,
+			})
+			start_buf({ buf = 0 })
 		end,
 	},
 }
