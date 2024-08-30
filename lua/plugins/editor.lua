@@ -169,4 +169,16 @@ return {
 			},
 		},
 	},
+
+	-- Better quick-fix (mainly for filtering)
+	{
+		"kevinhwang91/nvim-bqf",
+		ft = "qf",
+		dependencies = {
+			"junegunn/fzf",
+			setup = function()
+				vim.fn["fzf#install"]()
+			end,
+		},
+	},
 }

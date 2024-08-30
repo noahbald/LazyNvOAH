@@ -92,6 +92,7 @@ return {
 			detect_language = function(path)
 				return path:match("([^/]+)%.json$")
 			end,
+			diagnostic = { enabled = false },
 		},
 	},
 }
