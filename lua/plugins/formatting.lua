@@ -1,5 +1,15 @@
 local conform_condition_memo = {}
 
+local M = {
+	has_biome_config = function(ctx)
+		return vim.fs.find(
+			{ "biome.json", "biome.jsonc" },
+			{ path = ctx.filename, upwards = true, stop = vim.uv.cwd(), type = "file" }
+		)[1]
+	end,
+}
+M.has_biome_config = LazyVim.memoize(M.has_biome_config)
+
 return {
 	-- Ensure formatters are installed
 	{
@@ -32,15 +42,7 @@ return {
 		opts = {
 			formatters = {
 				biome = {
-					condition = function()
-						if conform_condition_memo["biome"] ~= nil then
-							return conform_condition_memo.biome
-						end
-						local root_patterns = { "biome.json", "biome.jsonc" }
-						local matches = vim.fs.find(root_patterns, { upwards = true, type = "file" })
-						conform_condition_memo["biome"] = #matches > 0
-						return conform_condition_memo["biome"]
-					end,
+					condition = M.has_biome_config,
 				},
 			},
 			formatters_by_ft = {

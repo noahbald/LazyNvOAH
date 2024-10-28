@@ -33,17 +33,4 @@ return {
 			{ "<leader>bS", "<Cmd>BufferLinePickClose<CR>", "Pick buffer to delete" },
 		},
 	},
-
-	-- Launch Yazi
-	{
-		"DreamMaoMao/yazi.nvim",
-		dependencies = {
-			"nvim-telescope/telescope.nvim",
-			"nvim-lua/plenary.nvim",
-		},
-
-		keys = {
-			{ "<leader>uy", "<cmd>Yazi<CR>", desc = "Toggle Yazi" },
-		},
-	},
 }

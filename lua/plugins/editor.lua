@@ -94,16 +94,20 @@ return {
 				},
 			},
 		},
+		event = "LazyFile",
 	},
 
 	-- Prettier markdown
 	{
 		"OXY2DEV/markview.nvim",
-		ft = "markdown",
+		opts = {
+			filetypes = { "markdown", "quarto", "rmd", "avante", "org", "norg" },
+		},
 		dependencies = {
 			"nvim-treesitter/nvim-treesitter",
 			"nvim-tree/nvim-web-devicons", -- Used by the code blocks
 		},
+		ft = { "markdown", "quarto", "rmd", "avante", "org", "norg" },
 	},
 
 	{

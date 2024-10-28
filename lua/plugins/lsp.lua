@@ -28,6 +28,12 @@ return {
 			---@type lspconfig.options
 			servers = {
 				biome = {},
+				eslint = {
+					settings = {
+						-- WARN: Project specific
+						workingDirectories = { "./apps/home-loans/" },
+					},
+				},
 			},
 			capabilities = {
 				textDocument = {
@@ -86,7 +92,7 @@ return {
 			"nvim-treesitter/nvim-treesitter",
 			"nvim-lua/plenary.nvim",
 		},
-		event = { "BufReadPre", "BufNewFile" },
+		ft = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
 		opts = {
 			translation_source = { "**/locales/*.json" },
 			detect_language = function(path)
