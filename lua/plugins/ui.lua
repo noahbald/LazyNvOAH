@@ -33,4 +33,7 @@ return {
 			{ "<leader>bS", "<Cmd>BufferLinePickClose<CR>", "Pick buffer to delete" },
 		},
 	},
+
+	-- Zellij controls
+	{ "noahbald/nangz.nvim" },
 }

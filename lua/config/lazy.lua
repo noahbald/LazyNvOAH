@@ -50,4 +50,9 @@ require("lazy").setup({
 			},
 		},
 	},
+	dev = {
+		path = "~/Projects/nvim",
+		patterns = { "noahbald" },
+		fallback = true,
+	},
 })
