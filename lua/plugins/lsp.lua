@@ -24,6 +24,7 @@ return {
 	-- Add folding range capabilities
 	{
 		"neovim/nvim-lspconfig",
+		version = "v1.0.0",
 		opts = {
 			---@type lspconfig.options
 			servers = {

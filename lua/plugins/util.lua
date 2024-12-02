@@ -9,6 +9,7 @@ return {
 			end
 			require("persistence").load()
 		end,
+		dependencies = { "folke/snacks.nvim" },
 	},
 
 	{
