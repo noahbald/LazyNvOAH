@@ -10,6 +10,7 @@ return {
 					ZebrazoneDefault = { bg = "#242434" },
 				}
 			end,
+			integrations = { blink_cmp = true },
 		},
 	},
 

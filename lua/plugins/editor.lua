@@ -17,25 +17,25 @@ return {
 
 	-- Telecope file history
 	{
-		"telescope.nvim",
+		"isak102/telescope-git-file-history.nvim",
 		dependencies = {
-			"isak102/telescope-git-file-history.nvim",
-			dependencies = { "tpope/vim-fugitive" },
-			keys = {
-				{ "<leader>gF", "<cmd>Telescope git_file_history<cr>", desc = "Telescope Current File History" },
-			},
+			"telescope.nvim",
+			"tpope/vim-fugitive",
+		},
+		keys = {
+			{ "<leader>gF", "<cmd>Telescope git_file_history<cr>", desc = "Telescope Current File History" },
 		},
 	},
 
 	-- Telescope grit
 	{
-		"telescope.nvim",
+		"noahbald/grit-telescope.nvim",
 		dependencies = {
-			"noahbald/grit-telescope.nvim",
-			keys = {
-				{ "<leader>fq", "<cmd>Telescope grit query<cr>", desc = "Telescope Grit Query" },
-				{ "<leader>fQ", "<cmd>Telescope grit list<cr>", desc = "Telescope Grit User Patterns" },
-			},
+			"telescope.nvim",
+		},
+		keys = {
+			{ "<leader>fq", "<cmd>Telescope grit query<cr>", desc = "Telescope Grit Query" },
+			{ "<leader>fQ", "<cmd>Telescope grit list<cr>", desc = "Telescope Grit User Patterns" },
 		},
 	},
 
@@ -184,5 +184,30 @@ return {
 				vim.fn["fzf#install"]()
 			end,
 		},
+	},
+
+	{
+		"saghen/blink.cmp",
+		config = function(_, opts)
+			-- TODO: Put this in `opts` when it works
+			opts.keymap = {
+				preset = nil,
+				["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
+				["<S-Esc>"] = { "hide", "fallback" },
+				["<CR>"] = { "accept", "fallback" },
+
+				["<S-Tab>"] = { "select_prev", "fallback" },
+				["<Tab>"] = { "select_next", "fallback" },
+				["<Up>"] = { "select_prev", "fallback" },
+				["<Down>"] = { "select_next", "fallback" },
+
+				["<S-Left>"] = { "snippet_backward" },
+				["<S-Right>"] = { "snippet_forward" },
+
+				["<C-u>"] = { "scroll_documentation_up", "fallback" },
+				["<C-d>"] = { "scroll_documentation_down", "fallback" },
+			}
+			require("blink.cmp").setup(opts)
+		end,
 	},
 }
